@@ -1,0 +1,961 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Menu — Addos Roastery & Table</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Cinzel:wght@400;500&family=Questrial&display=swap" rel="stylesheet" />
+
+<style>
+  :root {
+    --mustard: #E8B84B;
+    --mustard-dim: #c49a30;
+    --charcoal: #1a1812;
+    --charcoal-mid: #2c2820;
+    --charcoal-light: #3d3830;
+    --cream: #f5f0e8;
+    --cream-dim: #e8e2d6;
+    --gold-line: rgba(232, 184, 75, 0.3);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--charcoal);
+    color: var(--cream);
+    font-family: 'Questrial', sans-serif;
+    overflow-x: hidden;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 28px 48px;
+    background: linear-gradient(to bottom, rgba(26,24,18,0.95), rgba(26,24,18,0));
+  }
+
+  .nav-logo a { display: flex; align-items: center; }
+  .nav-logo img {
+    height: 100px;
+    width: auto;
+    opacity: 0.92;
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 40px;
+    list-style: none;
+  }
+
+  .nav-links a {
+    font-family: 'Cinzel', serif;
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--cream);
+    text-decoration: none;
+    opacity: 0.75;
+    transition: opacity 0.3s, color 0.3s;
+  }
+
+  .nav-links a:hover, .nav-links a.active { opacity: 1; color: var(--mustard); }
+
+  .nav-cta a {
+    font-family: 'Cinzel', serif;
+    font-size: 11px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--charcoal);
+    background: var(--mustard);
+    padding: 10px 22px;
+    text-decoration: none;
+    transition: background 0.3s;
+  }
+
+  .nav-cta a:hover { background: var(--mustard-dim); }
+
+  /* ── PAGE HEADER ── */
+  .page-header {
+    padding: 180px 48px 80px;
+    border-bottom: 1px solid var(--gold-line);
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 40px;
+  }
+
+  .page-header-left {}
+
+  .page-eyebrow {
+    font-family: 'Cinzel', serif;
+    font-size: 10px;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--mustard);
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+
+  .page-eyebrow::before {
+    content: '';
+    display: block;
+    width: 32px;
+    height: 1px;
+    background: var(--mustard);
+    opacity: 0.5;
+  }
+
+  .page-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 300;
+    font-size: clamp(56px, 8vw, 108px);
+    line-height: 0.95;
+    color: var(--cream);
+    letter-spacing: -0.02em;
+  }
+
+  .page-title em {
+    font-style: italic;
+    color: var(--mustard);
+    display: block;
+  }
+
+  .page-header-note {
+    max-width: 280px;
+    text-align: right;
+  }
+
+  .page-header-note p {
+    font-size: 13px;
+    line-height: 1.75;
+    color: var(--cream-dim);
+    opacity: 0.5;
+  }
+
+  .page-header-note strong {
+    display: block;
+    font-family: 'Cinzel', serif;
+    font-size: 9px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--mustard);
+    opacity: 0.7;
+    margin-bottom: 8px;
+    font-weight: 400;
+  }
+
+  /* ── STICKY CATEGORY NAV ── */
+  .category-nav {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: var(--charcoal);
+    border-bottom: 1px solid var(--gold-line);
+    display: flex;
+    align-items: center;
+    padding: 0 48px;
+    gap: 0;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+
+  .category-nav::-webkit-scrollbar { display: none; }
+
+  .cat-link {
+    font-family: 'Cinzel', serif;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--cream-dim);
+    opacity: 0.4;
+    text-decoration: none;
+    padding: 20px 28px 19px;
+    border-bottom: 2px solid transparent;
+    white-space: nowrap;
+    transition: opacity 0.3s, color 0.3s, border-color 0.3s;
+  }
+
+  .cat-link:hover { opacity: 0.75; }
+  .cat-link.active { opacity: 1; color: var(--mustard); border-bottom-color: var(--mustard); }
+
+  /* ── MENU BODY ── */
+  .menu-body { padding: 0 48px 120px; }
+
+  /* ── CATEGORY BLOCK ── */
+  .cat-block {
+    padding: 80px 0 0;
+    border-top: 1px solid var(--gold-line);
+    margin-top: 80px;
+  }
+
+  .cat-block:first-child { margin-top: 0; border-top: none; }
+
+  .cat-block-header {
+    display: flex;
+    align-items: baseline;
+    gap: 24px;
+    margin-bottom: 48px;
+  }
+
+  .cat-number {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 13px;
+    color: var(--mustard);
+    opacity: 0.5;
+    letter-spacing: 0.05em;
+    padding-top: 4px;
+  }
+
+  .cat-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 300;
+    font-size: clamp(32px, 4vw, 52px);
+    color: var(--cream);
+    line-height: 1;
+  }
+
+  .cat-title em { font-style: italic; color: var(--mustard); }
+
+  .cat-desc {
+    font-size: 13px;
+    color: var(--cream-dim);
+    opacity: 0.45;
+    max-width: 380px;
+    line-height: 1.7;
+    margin-left: auto;
+    padding-top: 6px;
+    text-align: right;
+  }
+
+  /* ── DISH LIST ── */
+  .dish-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+    background: var(--gold-line);
+  }
+
+  .dish-row {
+    background: var(--charcoal);
+    display: grid;
+    grid-template-columns: 120px 1fr auto;
+    gap: 32px;
+    align-items: center;
+    padding: 24px 40px;
+    transition: background 0.25s;
+    cursor: default;
+  }
+
+  .dish-row:hover { background: var(--charcoal-mid); }
+
+  /* Thumbnail image */
+  .dish-row-img {
+    width: 120px;
+    height: 90px;
+    overflow: hidden;
+    flex-shrink: 0;
+    position: relative;
+    border-radius: 8px;
+    border: 1.5px solid var(--mustard);
+    box-shadow: 0 0 0 1px rgba(232,184,75,0.15);
+  }
+
+  .dish-row-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    filter: brightness(0.82) saturate(0.8);
+    transition: filter 0.4s ease, transform 0.5s ease;
+  }
+
+  .dish-row:hover .dish-row-img img {
+    filter: brightness(0.95) saturate(1);
+    transform: scale(1.05);
+  }
+
+  .dish-row-left {}
+
+  .dish-row-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 24px;
+    font-weight: 400;
+    color: var(--cream);
+    margin-bottom: 8px;
+    line-height: 1.15;
+  }
+
+  .dish-row-desc {
+    font-size: 13px;
+    color: var(--cream-dim);
+    opacity: 0.5;
+    line-height: 1.65;
+    max-width: 560px;
+  }
+
+  .dish-row-tags {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-top: 12px;
+  }
+
+  .tag {
+    font-family: 'Cinzel', serif;
+    font-size: 8px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--mustard);
+    border: 1px solid rgba(232,184,75,0.28);
+    padding: 3px 9px;
+    opacity: 0.75;
+  }
+
+  .dish-row-right {
+    text-align: right;
+    padding-top: 4px;
+  }
+
+  .price-main {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 30px;
+    font-weight: 300;
+    color: var(--mustard);
+    line-height: 1;
+  }
+
+  .price-main sup {
+    font-size: 13px;
+    opacity: 0.55;
+    font-family: 'Questrial', sans-serif;
+    vertical-align: super;
+  }
+
+  .price-note {
+    font-size: 11px;
+    color: var(--cream-dim);
+    opacity: 0.35;
+    margin-top: 4px;
+    letter-spacing: 0.04em;
+  }
+
+  /* ── DIVIDER ── */
+  .menu-divider {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 48px 0 0;
+    color: var(--mustard);
+    opacity: 0.3;
+    font-family: 'Cinzel', serif;
+    font-size: 9px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+  }
+
+  .menu-divider::before,
+  .menu-divider::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--mustard);
+    opacity: 0.4;
+  }
+
+  /* ── BEVERAGES ── */
+  .bev-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    background: transparent;
+  }
+
+  .bev-card {
+    background: var(--charcoal);
+    padding: 0 0 32px;
+    transition: background 0.25s, border-color 0.25s;
+    overflow: hidden;
+    border-radius: 10px;
+    border: 1.5px solid var(--mustard);
+    box-shadow: 0 0 0 1px rgba(232,184,75,0.12);
+  }
+
+  .bev-card:hover { background: var(--charcoal-mid); }
+
+  .bev-card-img {
+    width: 100%;
+    height: 160px;
+    overflow: hidden;
+    margin-bottom: 24px;
+    border-radius: 8px 8px 0 0;
+  }
+
+  .bev-card-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    filter: brightness(0.78) saturate(0.75);
+    transition: filter 0.4s ease, transform 0.5s ease;
+  }
+
+  .bev-card:hover .bev-card-img img {
+    filter: brightness(0.95) saturate(1);
+    transform: scale(1.05);
+  }
+
+  .bev-card .bev-name,
+  .bev-card .bev-desc,
+  .bev-card .bev-price { padding: 0 32px; }
+
+  .bev-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 20px;
+    color: var(--cream);
+    margin-bottom: 6px;
+  }
+
+  .bev-desc {
+    font-size: 12px;
+    color: var(--cream-dim);
+    opacity: 0.45;
+    line-height: 1.6;
+    margin-bottom: 14px;
+  }
+
+  .bev-price {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 22px;
+    font-weight: 300;
+    color: var(--mustard);
+  }
+
+  .bev-price sup {
+    font-size: 11px;
+    opacity: 0.55;
+    font-family: 'Questrial', sans-serif;
+    vertical-align: super;
+  }
+
+  /* ── NOTE BAND ── */
+  .note-band {
+    margin-top: 80px;
+    background: var(--charcoal-mid);
+    border: 1px solid var(--gold-line);
+    padding: 48px;
+    display: flex;
+    align-items: center;
+    gap: 48px;
+  }
+
+  .note-band-icon {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 48px;
+    color: var(--mustard);
+    opacity: 0.4;
+    line-height: 1;
+    flex-shrink: 0;
+  }
+
+  .note-band-text {}
+
+  .note-band-title {
+    font-family: 'Cinzel', serif;
+    font-size: 10px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--mustard);
+    margin-bottom: 10px;
+    opacity: 0.75;
+  }
+
+  .note-band-body {
+    font-size: 13px;
+    color: var(--cream-dim);
+    opacity: 0.5;
+    line-height: 1.7;
+    max-width: 640px;
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--charcoal);
+    border-top: 1px solid var(--gold-line);
+    padding: 60px 48px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .footer-logo img {
+    height: 50px;
+    opacity: 0.8;
+  }
+
+  .footer-copy {
+    font-family: 'Cinzel', serif;
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    color: var(--cream-dim);
+    opacity: 0.4;
+  }
+
+  .footer-links {
+    display: flex;
+    gap: 32px;
+    list-style: none;
+  }
+
+  .footer-links a {
+    font-family: 'Cinzel', serif;
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--cream-dim);
+    text-decoration: none;
+    opacity: 0.45;
+    transition: opacity 0.3s, color 0.3s;
+  }
+
+  .footer-links a:hover { opacity: 1; color: var(--mustard); }
+
+  /* ── MOBILE ── */
+  @media (max-width: 768px) {
+    nav { padding: 20px 24px; }
+    .nav-links { display: none; }
+    .page-header { padding: 140px 24px 60px; flex-direction: column; align-items: flex-start; }
+    .page-header-note { text-align: left; max-width: 100%; }
+    .category-nav { padding: 0 24px; }
+    .menu-body { padding: 0 24px 80px; }
+    .dish-row { padding: 20px 24px; gap: 16px; grid-template-columns: 80px 1fr auto; }
+    .dish-row-img { width: 80px; height: 64px; }
+    .bev-grid { grid-template-columns: 1fr; }
+    .note-band { padding: 32px 24px; flex-direction: column; gap: 24px; }
+    footer { flex-direction: column; gap: 24px; text-align: center; }
+    .footer-links { flex-wrap: wrap; justify-content: center; }
+    .cat-block-header { flex-direction: column; gap: 12px; }
+    .cat-desc { text-align: left; margin-left: 0; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">
+    <a href="index.html"><img src="img/cropped_circle_image.png" alt="Addos" /></a>
+  </div>
+  <ul class="nav-links">
+    <li><a href="index.html">Story</a></li>
+    <li><a href="menu.html" class="active">Menu</a></li>
+    <li><a href="#">Origins</a></li>
+    <li><a href="#">Roastery</a></li>
+  </ul>
+  <div class="nav-cta">
+    <a href="#">Reserve a Table</a>
+  </div>
+</nav>
+
+<!-- PAGE HEADER -->
+<div class="page-header">
+  <div class="page-header-left">
+    <div class="page-eyebrow">The Full Menu</div>
+    <h1 class="page-title">What We<br/><em>Serve</em></h1>
+  </div>
+  <div class="page-header-note">
+    <strong>A note on our menu</strong>
+    <p>Dishes change with the season. Prices are inclusive of all charges. We accommodate dietary requirements — please let your server know.</p>
+  </div>
+</div>
+
+<!-- STICKY CATEGORY NAV -->
+<nav class="category-nav" aria-label="Menu categories">
+  <a class="cat-link active" href="#morning">Morning</a>
+  <a class="cat-link" href="#midday">Midday</a>
+  <a class="cat-link" href="#plates">Sharing Plates</a>
+  <a class="cat-link" href="#evening">Evening</a>
+  <a class="cat-link" href="#coffee">Coffee &amp; Drinks</a>
+</nav>
+
+<!-- MENU BODY -->
+<div class="menu-body">
+
+  <!-- ═══ MORNING ═══ -->
+  <div class="cat-block" id="morning">
+    <div class="cat-block-header">
+      <span class="cat-number">01 /</span>
+      <h2 class="cat-title">Morning<br/><em>Offerings</em></h2>
+      <p class="cat-desc">Served from opening until midday. Unhurried. Warm. Designed for the slow start.</p>
+    </div>
+    <div class="dish-list">
+      <div class="dish-row">
+        <div class="dish-row-img"><img src="https://picsum.photos/seed/slowegg/240/180" alt="The Slow Egg Plate" loading="lazy" /></div>
+        <div class="dish-row-left">
+          <div class="dish-row-name">The Slow Egg Plate</div>
+          <div class="dish-row-desc">Soft-set eggs cooked in smoked butter, herb oil, toasted sourdough, preserved lemon, pickled shallot.</div>
+          <div class="dish-row-tags"><span class="tag">Vegetarian</span></div>
+        </div>
+        <div class="dish-row-right">
+          <div class="price-main"><sup>GH₵</sup> 85</div>
+        </div>
+      </div>
+      <div class="dish-row">
+        <div class="dish-row-img"><img src="https://picsum.photos/seed/flatbread/240/180" alt="Warm Flatbread & Dips" loading="lazy" /></div>
+        <div class="dish-row-left">
+          <div class="dish-row-name">Warm Flatbread &amp; Dips</div>
+          <div class="dish-row-desc">House-baked flatbread served with labneh, roasted tomato, za'atar oil, and a soft herb salad.</div>
+          <div class="dish-row-tags"><span class="tag">Vegetarian</span><span class="tag">Sharing</span></div>
+        </div>
+        <div class="dish-row-right">
+          <div class="price-main"><sup>GH₵</sup> 65</div>
+        </div>
+      </div>
+      <div class="dish-row">
+        <div class="dish-row-img"><img src="https://picsum.photos/seed/stonefruit/240/180" alt="Poached Stone Fruit" loading="lazy" /></div>
+        <div class="dish-row-left">
+          <div class="dish-row-name">Poached Stone Fruit</div>
+          <div class="dish-row-desc">Seasonal fruit poached in cardamom syrup, thick whole-milk yoghurt, roasted oats, wildflower honey.</div>
+          <div class="dish-row-tags"><span class="tag">Sweet</span><span class="tag">Vegetarian</span></div>
+        </div>
+        <div class="dish-row-right">
+          <div class="price-main"><sup>GH₵</sup> 55</div>
+        </div>
+      </div>
+      <div class="dish-row">
+        <div class="dish-row-img"><img src="https://picsum.photos/seed/smokedfish/240/180" alt="Smoked Fish Toast" loading="lazy" /></div>
+        <div class="dish-row-left">
+          <div class="dish-row-name">Smoked Fish Toast</div>
+          <div class="dish-row-desc">House-cured smoked fish, cultured butter, dill cream, capers, rye bread, soft-boiled egg.</div>
+        </div>
+        <div class="dish-row-right">
+          <div class="price-main"><sup>GH₵</sup> 98</div>
+        </div>
+      </div>
+      <div class="dish-row">
+        <div class="dish-row-img"><img src="https://picsum.photos/seed/pastry/240/180" alt="Seasonal Pastry of the Day" loading="lazy" /></div>
+        <div class="dish-row-left">
+          <div class="dish-row-name">Seasonal Pastry of the Day</div>
+          <div class="dish-row-desc">Ask your server. Baked fresh each morning in the house kitchen.</div>
+          <div class="dish-row-tags"><span class="tag">Daily Special</span></div>
+        </div>
+        <div class="dish-row-right">
+          <div class="price-main"><sup>GH₵</sup> 35</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ MIDDAY ═══ -->
+  <div class="cat-block" id="midday">
+    <div class="cat-block-header">
+      <span class="cat-number">02 /</span>
+      <h2 class="cat-title">Midday<br/><em>Table</em></h2>
+      <p class="cat-desc">Served from noon until close. Generous, composed, rooted in the season's best.</p>
+    </div>
+    <div class="dish-list">
+      <div class="dish-row">
+        <div class="dish-row-img"><img src="https://picsum.photos/seed/grilledfish/240/180" alt="Grilled Whole Fish" loading="lazy" /></div>
+        <div class="dish-row-left">
+          <div class="dish-row-name">Grilled Whole Fish</div>
+          <div class="dish-row-desc">Market catch of the day, charred garden herbs, citrus butter, roasted fennel, pickled cucumber.</div>
+          <div class="dish-row-tags"><span class="tag">Seasonal</span></div>
+        </div>
+        <div class="dish-row-right">
+          <div class="price-main"><sup>GH₵</sup> 175</div>
+          <div class="price-note">Market price may vary</div>
+        </div>
+      </div>
+      <div class="dish-row">
+        <div class="dish-row-img"><img src="https://picsum.photos/seed/shortrib/240/180" alt="Braised Short Rib" loading="lazy" /></div>
+        <div class="dish-row-left">
+          <div class="dish-row-name">Braised Short Rib</div>
+          <div class="dish-row-desc">12-hour braised beef, reduced bone marrow jus, root vegetable purée, crispy shallot.</div>
+        </div>
+        <div class="dish-row-right">
+          <div class="price-main"><sup>GH₵</sup> 195</div>
+        </div>
+      </div>
+      <div class="dish-row">
+        <div class="dish-row-img"><img src="https://picsum.photos/seed/halfchicken/240/180" alt="Roasted Half Chicken" loading="lazy" /></div>
+        <div class="dish-row-left">
+          <div class="dish-row-name">Roasted Half Chicken</div>
+          <div class="dish-row-desc">Spatchcock chicken, preserved lemon butter, green herb sauce, roasted root vegetables.</div>
+        </div>
+        <div class="dish-row-right">
+          <div class="price-main"><sup>GH₵</sup> 145</div>
+        </div>
+      </div>
+      <div class="dish-row">
+        <div class="dish-row-img"><img src="https://picsum.photos/seed/herbsalad/240/180" alt="Green Herb Salad" loading="lazy" /></div>
+        <div class="dish-row-left">
+          <div class="dish-row-name">Green Herb Salad</div>
+          <div class="dish-row-desc">Bitter leaves and soft herbs, toasted seeds, preserved citrus, aged cheese shavings, olive oil dressing.</div>
+          <div class="dish-row-tags"><span class="tag">Vegetarian</span></div>
+        </div>
+        <div class="dish-row-right">
+          <div class="price-main"><sup>GH₵</sup> 72</div>
+        </div>
+      </div>
+      <div class="dish-row">
+        <div class="dish-row-img"><img src="https://picsum.photos/seed/cauliflower/240/180" alt="Slow-Roasted Cauliflower" loading="lazy" /></div>
+        <div class="dish-row-left">
+          <div class="dish-row-name">Slow-Roasted Cauliflower</div>
+          <div class="dish-row-desc">Whole roasted cauliflower, hazelnut brown butter, pomegranate molasses, fresh herbs.</div>
+          <div class="dish-row-tags"><span class="tag">Vegetarian</span><span class="tag">Vegan Option</span></div>
+        </div>
+        <div class="dish-row-right">
+          <div class="price-main"><sup>GH₵</sup> 110</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ SHARING PLATES ═══ -->
+  <div class="cat-block" id="plates">
+    <div class="cat-block-header">
+      <span class="cat-number">03 /</span>
+      <h2 class="cat-title">Sharing<br/><em>Plates</em></h2>
+      <p class="cat-desc">Small dishes for the centre of the table. Order several. Pass freely.</p>
+    </div>
+    <div class="dish-list">
+      <div class="dish-row">
+        <div class="dish-row-img"><img src="https://picsum.photos/seed/mezeboard/240/180" alt="Meze Board" loading="lazy" /></div>
+        <div class="dish-row-left">
+          <div class="dish-row-name">Meze Board</div>
+          <div class="dish-row-desc">A rotating selection of cured, pickled, and fermented small dishes. Composed daily by the kitchen. For two or more.</div>
+          <div class="dish-row-tags"><span class="tag">Sharing</span><span class="tag">Chef's Selection</span></div>
+        </div>
+        <div class="dish-row-right">
+          <div class="price-main"><sup>GH₵</sup> 140</div>
+          <div class="price-note">For two</div>
+        </div>
+      </div>
+      <div class="dish-row">
+        <div class="dish-row-img"><img src="https://picsum.photos/seed/prawns/240/180" alt="Charcoal Prawns" loading="lazy" /></div>
+        <div class="dish-row-left">
+          <div class="dish-row-name">Charcoal Prawns</div>
+          <div class="dish-row-desc">Wood-grilled tiger prawns, smoked paprika butter, lemon, warm bread for mopping.</div>
+        </div>
+        <div class="dish-row-right">
+          <div class="price-main"><sup>GH₵</sup> 125</div>
+        </div>
+      </div>
+      <div class="dish-row">
+        <div class="dish-row-img"><img src="https://picsum.photos/seed/charcuterie/240/180" alt="Cured Meats & Olives" loading="lazy" /></div>
+        <div class="dish-row-left">
+          <div class="dish-row-name">Cured Meats &amp; Olives</div>
+          <div class="dish-row-desc">House-cured and sourced charcuterie, marinated olives, aged hard cheese, grilled bread.</div>
+          <div class="dish-row-tags"><span class="tag">Sharing</span></div>
+        </div>
+        <div class="dish-row-right">
+          <div class="price-main"><sup>GH₵</sup> 95</div>
+        </div>
+      </div>
+      <div class="dish-row">
+        <div class="dish-row-img"><img src="https://picsum.photos/seed/bonemarrow/240/180" alt="Roasted Bone Marrow" loading="lazy" /></div>
+        <div class="dish-row-left">
+          <div class="dish-row-name">Roasted Bone Marrow</div>
+          <div class="dish-row-desc">Split marrow bones, herb gremolata, flaked sea salt, toasted sourdough.</div>
+        </div>
+        <div class="dish-row-right">
+          <div class="price-main"><sup>GH₵</sup> 88</div>
+        </div>
+      </div>
+      <div class="dish-row">
+        <div class="dish-row-img"><img src="https://picsum.photos/seed/whippedfeta/240/180" alt="Whipped Feta" loading="lazy" /></div>
+        <div class="dish-row-left">
+          <div class="dish-row-name">Whipped Feta</div>
+          <div class="dish-row-desc">Light, whipped feta, roasted red pepper, chilli oil, warm flatbread.</div>
+          <div class="dish-row-tags"><span class="tag">Vegetarian</span></div>
+        </div>
+        <div class="dish-row-right">
+          <div class="price-main"><sup>GH₵</sup> 62</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ EVENING ═══ -->
+  <div class="cat-block" id="evening">
+    <div class="cat-block-header">
+      <span class="cat-number">04 /</span>
+      <h2 class="cat-title">Evening<br/><em>Close</em></h2>
+      <p class="cat-desc">A slower pace. A longer pour. The desserts and sweet endings that earn the walk home.</p>
+    </div>
+    <div class="dish-list">
+      <div class="dish-row">
+        <div class="dish-row-img"><img src="https://picsum.photos/seed/choctart/240/180" alt="Dark Chocolate Tart" loading="lazy" /></div>
+        <div class="dish-row-left">
+          <div class="dish-row-name">Dark Chocolate Tart</div>
+          <div class="dish-row-desc">Bitter 72% ganache, salted caramel, light coffee cream, cocoa tuile, roasted cacao nibs.</div>
+          <div class="dish-row-tags"><span class="tag">Sweet</span></div>
+        </div>
+        <div class="dish-row-right">
+          <div class="price-main"><sup>GH₵</sup> 75</div>
+        </div>
+      </div>
+      <div class="dish-row">
+        <div class="dish-row-img"><img src="https://picsum.photos/seed/cheeseboard/240/180" alt="Cheese & Preserved Things" loading="lazy" /></div>
+        <div class="dish-row-left">
+          <div class="dish-row-name">Cheese &amp; Preserved Things</div>
+          <div class="dish-row-desc">Three cheeses, seasonal fruit jam, honeycomb, toasted seed crackers. Selection changes weekly.</div>
+          <div class="dish-row-tags"><span class="tag">Sharing</span><span class="tag">Vegetarian</span></div>
+        </div>
+        <div class="dish-row-right">
+          <div class="price-main"><sup>GH₵</sup> 110</div>
+        </div>
+      </div>
+      <div class="dish-row">
+        <div class="dish-row-img"><img src="https://picsum.photos/seed/pannacotta/240/180" alt="Honey & Cream Panna Cotta" loading="lazy" /></div>
+        <div class="dish-row-left">
+          <div class="dish-row-name">Honey &amp; Cream Panna Cotta</div>
+          <div class="dish-row-desc">Set cream, wildflower honey, poached pear, candied walnuts, thyme oil.</div>
+          <div class="dish-row-tags"><span class="tag">Sweet</span><span class="tag">Vegetarian</span></div>
+        </div>
+        <div class="dish-row-right">
+          <div class="price-main"><sup>GH₵</sup> 68</div>
+        </div>
+      </div>
+      <div class="dish-row">
+        <div class="dish-row-img"><img src="https://picsum.photos/seed/cheeseboard/240/180" alt="Cheese & Preserved Things" loading="lazy" /></div>
+        <div class="dish-row-left">
+          <div class="dish-row-name">Cheese &amp; Preserved Things</div>
+          <div class="dish-row-desc">Three cheeses, seasonal fruit jam, honeycomb, toasted seed crackers. Selection changes weekly.</div>
+          <div class="dish-row-tags"><span class="tag">Sharing</span><span class="tag">Vegetarian</span></div>
+        </div>
+        <div class="dish-row-right">
+          <div class="price-main"><sup>GH₵</sup> 110</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ COFFEE & DRINKS ═══ -->
+  <div class="cat-block" id="coffee">
+    <div class="cat-block-header">
+      <span class="cat-number">05 /</span>
+      <h2 class="cat-title">Natural Herbs<br/><em>&amp; Drinks</em></h2>
+      <p class="cat-desc">Roasted in-house. Served with care. Natural wines by the glass from our rotating selection.</p>
+    </div>
+
+    <div class="menu-divider">Drinks</div>
+    <div style="height:24px;"></div>
+
+    <div class="bev-grid">
+      <div class="bev-card">
+        <div class="bev-card-img"><img src="https://picsum.photos/seed/espresso/480/320" alt="Espresso" loading="lazy" /></div>
+        <div class="bev-name">Espresso</div>
+        <div class="bev-desc">Single or double. House blend or single-origin. Ask for today's offering.</div>
+        <div class="bev-price"><sup>GH₵</sup> 22</div>
+      </div>
+      <div class="bev-card">
+        <div class="bev-card-img"><img src="https://picsum.photos/seed/filtercoffee/480/320" alt="Filter Coffee" loading="lazy" /></div>
+        <div class="bev-name">Filter Coffee</div>
+        <div class="bev-desc">Rotating single-origin, brewed to order. V60 or Chemex depending on the bean.</div>
+        <div class="bev-price"><sup>GH₵</sup> 35</div>
+      </div>
+      <div class="bev-card">
+        <div class="bev-card-img"><img src="https://picsum.photos/seed/coldbrew/480/320" alt="Cold Brew" loading="lazy" /></div>
+        <div class="bev-name">Cold Brew</div>
+        <div class="bev-desc">18-hour cold brew, served long over ice. Clean, sweet, low-acid.</div>
+        <div class="bev-price"><sup>GH₵</sup> 38</div>
+      </div>
+      <div class="bev-card">
+        <div class="bev-card-img"><img src="https://picsum.photos/seed/flatwhite/480/320" alt="Flat White" loading="lazy" /></div>
+        <div class="bev-name">Flat White</div>
+        <div class="bev-desc">Double ristretto, steamed whole milk, fine microfoam. Small and precise.</div>
+        <div class="bev-price"><sup>GH₵</sup> 30</div>
+      </div>
+      <div class="bev-card">
+        <div class="bev-card-img"><img src="https://picsum.photos/seed/cortado/480/320" alt="Cortado" loading="lazy" /></div>
+        <div class="bev-name">Cortado</div>
+        <div class="bev-desc">Equal parts espresso and warm milk. The midpoint between intensity and softness.</div>
+        <div class="bev-price"><sup>GH₵</sup> 28</div>
+      </div>
+      <div class="bev-card">
+        <div class="bev-card-img"><img src="https://picsum.photos/seed/oatlatte/480/320" alt="Oat Latte" loading="lazy" /></div>
+        <div class="bev-name">Oat Latte</div>
+        <div class="bev-desc">House espresso blend, oat milk, lightly textured. Available iced.</div>
+        <div class="bev-price"><sup>GH₵</sup> 34</div>
+      </div>
+    </div>
+
+    <div class="menu-divider">Signature Drinks</div>
+    <div style="height:24px;"></div>
+
+    <div class="bev-grid">
+      <div class="bev-card">
+        <div class="bev-card-img"><img src="https://picsum.photos/seed/negroni/480/320" alt="Cold Brew Negroni" loading="lazy" /></div>
+        <div class="bev-name">Cold Brew Negroni</div>
+        <div class="bev-desc">House cold brew, Campari, sweet vermouth, expressed orange peel.</div>
+        <div class="bev-price"><sup>GH₵</sup> 85</div>
+      </div>
+      <div class="bev-card">
+        <div class="bev-card-img"><img src="https://picsum.photos/seed/figspritz/480/320" alt="Roasted Fig Spritz" loading="lazy" /></div>
+        <div class="bev-name">Roasted Fig Spritz</div>
+        <div class="bev-desc">Roasted fig syrup, sparkling wine, lemon, fresh thyme sprig.</div>
+        <div class="bev-price"><sup>GH₵</sup> 78</div>
+      </div>
+      <div class="bev-card">
+        <div class="bev-card-img"><img src="https://picsum.photos/seed/naturalwine/480/320" alt="Natural Wine by the Glass" loading="lazy" /></div>
+        <div class="bev-name">Natural Wine by the Glass</div>
+        <div class="bev-desc">Rotating selection — skin-contact, pét-nat, or field blend. Ask our team for today's pour.</div>
+        <div class="bev-price"><sup>GH₵</sup> 95</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- NOTE BAND -->
+  <div class="note-band">
+    <div class="note-band-icon">◈</div>
+    <div class="note-band-text">
+      <div class="note-band-title">Sourcing &amp; Seasonality</div>
+      <div class="note-band-body">Our menu shifts with what is available and what is at its best. Dishes marked seasonal may not be available every day. We work with small local farms and trusted suppliers — if you'd like to know where something came from, ask.</div>
+    </div>
+  </div>
+
+</div><!-- end menu-body -->
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">
+    <img src="img/cropped_circle_image.png" alt="Addos" />
+  </div>
+  <ul class="footer-links">
+    <li><a href="#">Home</a></li>
+    <li><a href="https://www.instagram.com/theaddos.afrocafe/">Instagram</a></li>
+    <li><a href="#">WhatsApp</a></li>
+    <li><a href="#">X.com</a></li>
+  </ul>
+  <div class="footer-copy">© 2025 the Addos afro cafe &amp; Restaurant</div>
+</footer>
+
+<script>
+// Highlight active category in sticky nav on scroll
+const sections = document.querySelectorAll('.cat-block[id]');
+const catLinks  = document.querySelectorAll('.cat-link');
+
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      catLinks.forEach(l => l.classList.remove('active'));
+      const active = document.querySelector('.cat-link[href="#' + entry.target.id + '"]');
+      if (active) active.classList.add('active');
+    }
+  });
+}, { rootMargin: '-20% 0px -70% 0px' });
+
+sections.forEach(s => observer.observe(s));
+</script>
+</body>
+</html>
